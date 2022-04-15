@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html>
+<body>
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var segmentos = 20;
+var centerX = 300;
+var centerY = 300;
+var raioDaMenorCircunferencia = 50;
+var raioDaMaiorCircunferencia = 200;
+var segmentosEmPI = 2 * Math.PI/segmentos;
+
+for(var i = 0; i < segmentos; i++)
+{
+let randomColor = Math.floor(Math.random()*16777215).toString(16);
+ctx.strokeStyle = "#" + randomColor;
+var xMenorCircunferencia = centerX + raioDaMenorCircunferencia * Math.cos ((i) * segmentosEmPI );
+var yMenorCircunferencia = centerY + raioDaMenorCircunferencia * Math.sin ((i) * segmentosEmPI );
+var xMaiorCircunferencia = centerX + raioDaMaiorCircunferencia * Math.cos ((i) * segmentosEmPI );
+var yMaiorCircunferencia = centerY + raioDaMaiorCircunferencia * Math.sin ((i) * segmentosEmPI );
+var xMenorCircunferenciaPT2 = centerX + raioDaMenorCircunferencia * Math.cos ((i+1) * segmentosEmPI );
+var yMenorCircunferenciaPT2 = centerY + raioDaMenorCircunferencia * Math.sin ((i+1) * segmentosEmPI );
+var xMaiorCircunferenciaPT2 = centerX + raioDaMaiorCircunferencia * Math.cos ((i+1) * segmentosEmPI );
+var yMaiorCircunferenciaPT2 = centerY + raioDaMaiorCircunferencia * Math.sin ((i+1) * segmentosEmPI );
+ctx.beginPath();
+////Contexto 1
+ctx.moveTo(xMenorCircunferencia, yMenorCircunferencia);
+ctx.lineTo(xMaiorCircunferencia, yMaiorCircunferencia);
+////Contexto 2
+ctx.arc(centerX, centerY, raioDaMaiorCircunferencia, (i)*segmentosEmPI,(i+1) * segmentosEmPI);
+////Contexto 3
+ctx.moveTo(xMaiorCircunferenciaPT2, yMaiorCircunferenciaPT2);
+ctx.lineTo(xMenorCircunferenciaPT2, yMenorCircunferenciaPT2);
+////Contexto 4
+ctx.arc(centerX, centerY, raioDaMenorCircunferencia, (i+1)*segmentosEmPI,(i) * segmentosEmPI, true);
+//ctx.closePath();
+//ctx.fillStyle = "#FFCC00";
+ctx.fillStyle = "#" + randomColor
+ctx.fill();
+ctx.stroke();
+}
+
+
+/*
+setInterval(function(){
+    ctx.clearRect(0, 0, c.width, c.height);
+    desenho();   
+    posicao+=aceleracao;
+    aceleracao-=aceleracao/20;
+    document.getElementById("p1").innerHTML = "Velocidade: "+velocidade; 
+    },100);
+*/
+
+
+
+</script> 
+</body>
+</html>
