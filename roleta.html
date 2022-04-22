@@ -2,6 +2,8 @@
  <html>
     <body>
 	
+	  <button onclick="funcaoDesaceleradora()">Click me</button>
+		
        <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
 	   O Browser não suporta a tag canvas HTML5.
 	   </canvas>
@@ -25,7 +27,7 @@
        var raioDaMaiorCircunferencia = 200;
 	   
 	   /// Quantidade de "fatias da roleta"	   
-       var segmentos = 20;	   
+       var segmentos = 12;	   
 	   
 	   /// Tamanho de cada segmentos em Pi radianos (( 2 * 3,14 / fatias))
        var tamanhoDeCadaSegmentosEmPI = 2 * Math.PI / segmentos;
@@ -45,8 +47,9 @@
        }
 	   	   
 	   ///?
-       let posicaoDaRoda = 0;
+       let quantidadeDeSegmentosPorInteracaoAPercorrer = 0.5;
 		
+		//Função para desenhar pontos livres com base nas coordenadas
 		function desenharUmPonto(x, y)
 		{
 		contexto.beginPath();
@@ -57,76 +60,85 @@
 
        function desenharRoleta() {
 	           
-		   for(var i = 0; i < segmentos; i++)
+		   for(var i = quantidadeDeSegmentosPorInteracaoAPercorrer; 
+		   i < segmentos + quantidadeDeSegmentosPorInteracaoAPercorrer;
+		   i++)
 		   {
+			////Cada iteração representa um segmento da roleta					
+		   
+		    /// Pontos X1 e Y1 na esfera menor (para cada segmento)
+			/** centroXDaRoleta + (raio * Math.cos(tamanhoDoSegmento)) */			
 		    let x1PequenaEsfera = 
 			equacaoSimplificadaPontoX(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * i);
 			let y1PequenaEsfera = 
 			equacaoSimplificadaPontoY(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * i);
 			
+			/// Pontos X2 e Y2 na esfera menor (para cada segmento)
 			let x2PequenaEsfera = 
 			equacaoSimplificadaPontoX(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
 			let y2PequenaEsfera = 
 			equacaoSimplificadaPontoY(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
 			
+			/// Pontos X1 e Y1 na esfera maior (para cada segmento)
 			let x1GrandeEsfera = 
 			equacaoSimplificadaPontoX(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i));
 			let y1GrandeEsfera = 
 			equacaoSimplificadaPontoY(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i));
 			
+			/// Pontos X2 e Y2 na esfera maior (para cada segmento)
 			let x2GrandeEsfera = 
 			equacaoSimplificadaPontoX(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
 			let y2GrandeEsfera = 
 			equacaoSimplificadaPontoY(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));			
-		
-			console.log("I: " + i); 
 			
-			contexto.beginPath();
 			
-			contexto.moveTo(x1PequenaEsfera, y1PequenaEsfera);		
+			/// Começa o desenho do segmento da roleta
+			contexto.beginPath();		
 			
-			contexto.lineTo(x1GrandeEsfera, y1GrandeEsfera);
-			
+			/// Pontos de desenho da roleta
+			contexto.moveTo(x1PequenaEsfera, y1PequenaEsfera);			
+			contexto.lineTo(x1GrandeEsfera, y1GrandeEsfera);			
 			contexto.arc(centroXDaRoleta, centroYDaRoleta, raioDaMaiorCircunferencia,
-			(i) * tamanhoDeCadaSegmentosEmPI,(i + 1) * tamanhoDeCadaSegmentosEmPI);
-			
+			(i) * tamanhoDeCadaSegmentosEmPI,(i + 1) * tamanhoDeCadaSegmentosEmPI);			
 			contexto.lineTo(x2GrandeEsfera, y2GrandeEsfera);
-			contexto.lineTo(x2PequenaEsfera, y2PequenaEsfera);
-			
+			contexto.lineTo(x2PequenaEsfera, y2PequenaEsfera);			
 			contexto.arc(centroXDaRoleta, centroYDaRoleta, raioDaMenorCircunferencia,
 			(i + 1) * tamanhoDeCadaSegmentosEmPI,(i) * tamanhoDeCadaSegmentosEmPI, true);
 			
-			///Desenha linhas das referencias acima
+			///Desenha linhas das referenciadas acima
 			contexto.stroke();
 			
 			///Seleciona a cor do segmento a ser preenchido
-			contexto.fillStyle = coresDeCadaSegmento[i];
-			contexto.fill();
+			contexto.fillStyle = coresDeCadaSegmento[i-quantidadeDeSegmentosPorInteracaoAPercorrer];
+			contexto.fill();			
 			
-			/* Imprime Pontos da Pequena Esfera */
-			console.log("x1PequenaEsfera: " + x1PequenaEsfera + ",y1PequenaEsfera: " + y1PequenaEsfera);
-			console.log("x2PequenaEsfera: " + x2PequenaEsfera + ",y2PequenaEsfera: " + y2PequenaEsfera);
+			//quantidadeDeSegmentosPorInteracaoAPercorrer+=i*0.1;
+		    
+			/** Imprime Pontos da Pequena Esfera */
+			//console.log("x1PequenaEsfera: " + x1PequenaEsfera + ",y1PequenaEsfera: " + y1PequenaEsfera);
+			//console.log("x2PequenaEsfera: " + x2PequenaEsfera + ",y2PequenaEsfera: " + y2PequenaEsfera);
 			
-			/* Imprime Pontos da Grande Esfera  */
-			console.log("x1GrandeEsfera: " + x1GrandeEsfera + ",y1GrandeEsfera: " + y1GrandeEsfera);
-			console.log("x2GrandeEsfera: " + x2GrandeEsfera + ",y2GrandeEsfera: " + y2GrandeEsfera);
+			/**  Imprime Pontos da Grande Esfera  */
+			//console.log("x1GrandeEsfera: " + x1GrandeEsfera + ",y1GrandeEsfera: " + y1GrandeEsfera);
+			//console.log("x2GrandeEsfera: " + x2GrandeEsfera + ",y2GrandeEsfera: " + y2GrandeEsfera);
 			
-			// Teste de Cálculo de Raio (Desenhar pontos x/y)
-			desenharUmPonto(x1PequenaEsfera, y1PequenaEsfera);
-			desenharUmPonto(x2PequenaEsfera, y2PequenaEsfera);
+			/**  Teste de Cálculo de Raio (Desenhar pontos x/y) */
+			//desenharUmPonto(x1PequenaEsfera, y1PequenaEsfera);
+			//desenharUmPonto(x2PequenaEsfera, y2PequenaEsfera);
 			
-			desenharUmPonto(x1GrandeEsfera, y1GrandeEsfera);			
-			desenharUmPonto(x2GrandeEsfera, y2GrandeEsfera);
+			//desenharUmPonto(x1GrandeEsfera, y1GrandeEsfera);			
+			//desenharUmPonto(x2GrandeEsfera, y2GrandeEsfera);			
 			
+			//posicaoDaRoda++;
 		   }		   
        }   
 	   
-	   	function equacaoSimplificadaPontoX(raio, tamanhoDoSegmento){		
-		return centroXDaRoleta + raio * Math.cos(tamanhoDoSegmento);
+	   	function equacaoSimplificadaPontoX(raio, tamanhoDoSegmento){
+		return centroXDaRoleta + (raio * Math.cos(tamanhoDoSegmento));
 	    }		
 		
-		function equacaoSimplificadaPontoY(raio, tamanhoDoSegmento){		
-		return centroYDaRoleta + raio * Math.sin(tamanhoDoSegmento);
+		function equacaoSimplificadaPontoY(raio, tamanhoDoSegmento){			
+		return centroYDaRoleta + (raio * Math.sin(tamanhoDoSegmento));
 	    }		
 	   
 	   /*
@@ -134,10 +146,48 @@
 	   */
 	   contexto.font = '10px serif';
        contexto.fillText('Numero de segmentos da roleta: ' + segmentos , 10, 10);
-	   contexto.fillText( 'RaioDaMenorCircunferencia: ' + raioDaMenorCircunferencia, 10, 20);
-	   contexto.fillText( 'RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);  
+	   contexto.fillText('RaioDaMenorCircunferencia: ' + raioDaMenorCircunferencia, 10, 20);
+	   contexto.fillText('RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);  
 	   
-	   desenharRoleta();	   
+	   	   
+		/*
+		 var intervaloDeGiro = setInterval(function() {
+         contexto.clearRect(0, 0, contexto.width, contexto.height);
+		 quantidadeDeSegmentosPorInteracaoAPercorrer++;
+         desenharRoleta();
+       }, 100);
+	   */
+		desenharRoleta();
+        
+		
+		var tempo = 50; 	
+		var limite = 550;
+		
+        var interval; 		
+ 
+        // Função que se executa em intervalos irregulares
+        function funcaoDesaceleradora() {
+		
+		    contexto.clearRect(0, 0, contexto.width, contexto.height);
+            desenharRoleta();			
+			quantidadeDeSegmentosPorInteracaoAPercorrer++;
+			
+			console.log("Tempo: " + tempo);
+			
+            // Limpa o setinterval anterior
+            clearInterval(interval);    
+			
+			mudarTimer();
+			if(tempo < limite)
+            interval = setInterval(funcaoDesaceleradora, tempo);
+        }
+		
+		// Função que muda o timer
+        function mudarTimer(){
+            tempo = tempo * 1.05;
+        }
+		
+		//funcaoDesaceleradora();
 
 	   
      </script>
