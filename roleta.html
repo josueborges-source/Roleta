@@ -1,0 +1,100 @@
+ <!DOCTYPE html>
+ <html>
+    <body>
+	
+       <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
+	   O Browser não suporta a tag canvas HTML5.
+	   </canvas>
+	   
+	   <script>
+	   
+       var velocidade = 1;
+       var angulo = 2 * Math.PI * raioDaMaiorCircunferencia;
+
+       var canvas = document.getElementById("myCanvas");	   
+	   
+	   // Objeto HTMLCanvasElement de um HTMLElement
+       var contexto = canvas.getContext("2d");   
+	   
+	   /// X e Y do centro da roleta 
+       var centroXDaRoleta = 300;	   
+       var centroYDaRoleta = 300;
+	   
+	   /// Raios da menor e maior circunfência
+       var raioDaMenorCircunferencia = 50;
+       var raioDaMaiorCircunferencia = 200;
+	   
+	   /// Quantidade de "fatias da roleta"	   
+       var segmentos = 20;	   
+	   
+	   /// Tamanho de cada segmentos em Pi radianos (( 2 * 3,14 / fatias))
+       var tamanhoDeCadaSegmentosEmPI = 2 * Math.PI / segmentos;
+	   
+	   //// ?
+	   var delay = 100;
+	   
+	   /// ?
+	   var quantidadeDeExecucoesDaFuncao = 1;
+
+       /// Array das coresDeSegmento
+       const coresDeCadaSegmento = [];
+	   
+	   ///?
+       let posicaoDaRoda = 0;
+		
+		function desenharUmPonto(x, y)
+		{
+		contexto.beginPath();
+		contexto.moveTo(x, y);
+		contexto.lineTo(x+1, y+1);
+		contexto.stroke();
+		}
+
+       function desenharRoleta() {
+	           
+		   for(var i = 0; i < segmentos; i++)
+		   {
+		   
+		    let x1PequenaEsfera = centroXDaRoleta + raioDaMenorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * i);
+			let y1PequenaEsfera = centroYDaRoleta + raioDaMenorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * i);
+			
+			let x2PequenaEsfera = centroXDaRoleta + raioDaMenorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * (i + 1));
+			let y2PequenaEsfera = centroYDaRoleta + raioDaMenorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * (i + 1));
+			
+			let x1GrandeEsfera = centroXDaRoleta + raioDaMaiorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * i);
+			let y1GrandeEsfera = centroYDaRoleta + raioDaMaiorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * i);
+			
+			let x2GrandeEsfera = centroXDaRoleta + raioDaMaiorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * (i + 1));
+			let y2GrandeEsfera = centroYDaRoleta + raioDaMaiorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * (i + 1));
+			
+			console.log("I: " + i); 
+			
+			/* Imprime Pontos da Pequena Esfera */
+			console.log("x1PequenaEsfera: " + x1PequenaEsfera + ",y1PequenaEsfera: " + y1PequenaEsfera);
+			console.log("x2PequenaEsfera: " + x2PequenaEsfera + ",y2PequenaEsfera: " + y2PequenaEsfera);
+			
+			/* Imprime Pontos da Grande Esfera  */
+			console.log("x1GrandeEsfera: " + x1GrandeEsfera + ",y1GrandeEsfera: " + y1GrandeEsfera);
+			console.log("x2GrandeEsfera: " + x2GrandeEsfera + ",y2GrandeEsfera: " + y2GrandeEsfera);
+			
+			// Teste de Cálculo de Raio (Desenhar pontos x/y)
+			desenharUmPonto(x1PequenaEsfera, y1PequenaEsfera);
+			desenharUmPonto(x2PequenaEsfera, y2PequenaEsfera);
+			
+			desenharUmPonto(x1GrandeEsfera, y1GrandeEsfera);			
+			desenharUmPonto(x2GrandeEsfera, y2GrandeEsfera);
+			
+		   }		   
+       }
+	   
+	   contexto.font = '10px serif';
+       contexto.fillText('Numero de segmentos da roleta: ' + segmentos , 10, 10);
+	   contexto.fillText( 'RaioDaMenorCircunferencia: ' + raioDaMenorCircunferencia, 10, 20);
+	   contexto.fillText( 'RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);
+	   
+	   desenharRoleta();	   
+
+	   
+     </script>
+    </body>
+ </html>
