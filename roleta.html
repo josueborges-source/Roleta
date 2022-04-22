@@ -39,6 +39,12 @@
        /// Array das coresDeSegmento
        const coresDeCadaSegmento = [];
 	   
+	   ///Inserir array de cores com cores aleatórias
+	   for (var i = 0; i < segmentos; i++) {
+         coresDeCadaSegmento[i] = "#" + Math.floor(Math.random() * 16777215).toString(16);
+       }
+	   
+	   
 	   ///?
        let posicaoDaRoda = 0;
 		
@@ -69,6 +75,28 @@
 			
 			console.log("I: " + i); 
 			
+			contexto.beginPath();
+			
+			contexto.moveTo(x1PequenaEsfera, y1PequenaEsfera);		
+			
+			contexto.lineTo(x1GrandeEsfera, y1GrandeEsfera);
+			
+			contexto.arc(centroXDaRoleta, centroYDaRoleta, raioDaMaiorCircunferencia,
+			(i) * tamanhoDeCadaSegmentosEmPI,(i + 1) * tamanhoDeCadaSegmentosEmPI);
+			
+			contexto.lineTo(x2GrandeEsfera, y2GrandeEsfera);
+			contexto.lineTo(x2PequenaEsfera, y2PequenaEsfera);
+			
+			contexto.arc(centroXDaRoleta, centroYDaRoleta, raioDaMenorCircunferencia,
+			(i + 1) * tamanhoDeCadaSegmentosEmPI,(i) * tamanhoDeCadaSegmentosEmPI, true);
+			
+			///Desenha linhas das referencias acima
+			contexto.stroke();
+			
+			///Seleciona a cor do segmento a ser preenchido
+			contexto.fillStyle = coresDeCadaSegmento[i];
+			contexto.fill();
+			
 			/* Imprime Pontos da Pequena Esfera */
 			console.log("x1PequenaEsfera: " + x1PequenaEsfera + ",y1PequenaEsfera: " + y1PequenaEsfera);
 			console.log("x2PequenaEsfera: " + x2PequenaEsfera + ",y2PequenaEsfera: " + y2PequenaEsfera);
@@ -91,6 +119,8 @@
        contexto.fillText('Numero de segmentos da roleta: ' + segmentos , 10, 10);
 	   contexto.fillText( 'RaioDaMenorCircunferencia: ' + raioDaMenorCircunferencia, 10, 20);
 	   contexto.fillText( 'RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);
+	   
+	  
 	   
 	   desenharRoleta();	   
 
