@@ -43,8 +43,7 @@
 	   for (var i = 0; i < segmentos; i++) {
          coresDeCadaSegmento[i] = "#" + Math.floor(Math.random() * 16777215).toString(16);
        }
-	   
-	   
+	   	   
 	   ///?
        let posicaoDaRoda = 0;
 		
@@ -54,25 +53,32 @@
 		contexto.moveTo(x, y);
 		contexto.lineTo(x+1, y+1);
 		contexto.stroke();
-		}
+		}		
 
        function desenharRoleta() {
 	           
 		   for(var i = 0; i < segmentos; i++)
 		   {
-		   
-		    let x1PequenaEsfera = centroXDaRoleta + raioDaMenorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * i);
-			let y1PequenaEsfera = centroYDaRoleta + raioDaMenorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * i);
+		    let x1PequenaEsfera = 
+			equacaoSimplificadaPontoX(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * i);
+			let y1PequenaEsfera = 
+			equacaoSimplificadaPontoY(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * i);
 			
-			let x2PequenaEsfera = centroXDaRoleta + raioDaMenorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * (i + 1));
-			let y2PequenaEsfera = centroYDaRoleta + raioDaMenorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * (i + 1));
+			let x2PequenaEsfera = 
+			equacaoSimplificadaPontoX(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
+			let y2PequenaEsfera = 
+			equacaoSimplificadaPontoY(raioDaMenorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
 			
-			let x1GrandeEsfera = centroXDaRoleta + raioDaMaiorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * i);
-			let y1GrandeEsfera = centroYDaRoleta + raioDaMaiorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * i);
+			let x1GrandeEsfera = 
+			equacaoSimplificadaPontoX(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i));
+			let y1GrandeEsfera = 
+			equacaoSimplificadaPontoY(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i));
 			
-			let x2GrandeEsfera = centroXDaRoleta + raioDaMaiorCircunferencia * Math.cos(tamanhoDeCadaSegmentosEmPI * (i + 1));
-			let y2GrandeEsfera = centroYDaRoleta + raioDaMaiorCircunferencia * Math.sin(tamanhoDeCadaSegmentosEmPI * (i + 1));
-			
+			let x2GrandeEsfera = 
+			equacaoSimplificadaPontoX(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));
+			let y2GrandeEsfera = 
+			equacaoSimplificadaPontoY(raioDaMaiorCircunferencia, tamanhoDeCadaSegmentosEmPI * (i + 1));			
+		
 			console.log("I: " + i); 
 			
 			contexto.beginPath();
@@ -113,14 +119,23 @@
 			desenharUmPonto(x2GrandeEsfera, y2GrandeEsfera);
 			
 		   }		   
-       }
+       }   
 	   
+	   	function equacaoSimplificadaPontoX(raio, tamanhoDoSegmento){		
+		return centroXDaRoleta + raio * Math.cos(tamanhoDoSegmento);
+	    }		
+		
+		function equacaoSimplificadaPontoY(raio, tamanhoDoSegmento){		
+		return centroYDaRoleta + raio * Math.sin(tamanhoDoSegmento);
+	    }		
+	   
+	   /*
+			Legendas do topo do canvas
+	   */
 	   contexto.font = '10px serif';
        contexto.fillText('Numero de segmentos da roleta: ' + segmentos , 10, 10);
 	   contexto.fillText( 'RaioDaMenorCircunferencia: ' + raioDaMenorCircunferencia, 10, 20);
-	   contexto.fillText( 'RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);
-	   
-	  
+	   contexto.fillText( 'RaioDaMaiorCircunferencia: ' + raioDaMaiorCircunferencia, 10, 30);  
 	   
 	   desenharRoleta();	   
 
