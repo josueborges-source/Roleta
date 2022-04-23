@@ -157,7 +157,7 @@
          desenharRoleta();
        }, 100);
 	   */
-		desenharRoleta();
+		//funcaoDesaceleradora();
         
 		
 		var tempo = 50; 	
@@ -172,7 +172,7 @@
             desenharRoleta();			
 			quantidadeDeSegmentosPorInteracaoAPercorrer++;
 			
-			console.log("Tempo: " + tempo);
+			//console.log("Tempo: " + tempo);
 			
             // Limpa o setinterval anterior
             clearInterval(interval);    
@@ -187,7 +187,7 @@
             tempo = tempo * 1.05;
         }
 		
-		//funcaoDesaceleradora();
+		funcaoDesaceleradora();
 
 	   
      </script>
